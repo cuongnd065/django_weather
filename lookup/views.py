@@ -1,3 +1,4 @@
+# this is my views for project
 from django.shortcuts import render
 
 # Create your views here.
