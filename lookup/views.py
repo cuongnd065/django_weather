@@ -7,30 +7,60 @@ def home(request):
 	import json
 	import requests
 
-	api_request = requests.get("http://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=20002&distance=25&API_KEY=1006531C-06DC-4022-91D2-0A3B3EA111E5")
-	
-	try:
-		api = json.loads(api_request.content)
+	if request.method == "POST":
+		zipcode = request.POST['zipcode']
 
-	except Exception as e:
-		api = "Error api request"
+		api_request = requests.get("http://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=" + zipcode + "&distance=25&API_KEY=1006531C-06DC-4022-91D2-0A3B3EA111E5")
+		
+		try:
+			api = json.loads(api_request.content)
 
-	if api[0]['Category']['Name'] == "Good":
-		category_description = "Good (0 - 50) Air quality is considered satisfactory, and air pollution poses little or no risk."
-		category_color = "good"
-	elif api[0]['Category']['Name'] == "Moderate":
-		category_description="AQI: Moderate (51 - 100) Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution."
-		category_color = "moderate"
-	elif api[0]['Category']['Name'] == "Unhealthy":
-		category_description= "AQI: Unhealthy for Sensitive Groups (101 - 150) Although general public is not likely to be affected at this AQI range, people with lung disease, older adults and children are at a greater risk from exposure to ozone, whereas persons with heart and lung disease, older adults and children are at greater risk from the presence of particles in the air."
-		category_color = "unhealthy"
-	elif api[0]['Category']['Name'] == "Unhealthy":
-		category_description= "AQI: Unhealthy (151 - 200) Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects."
-		category_color = "unhealthy"
+		except Exception as e:
+			api = "Error api request"
 
-	# api = 5
+		if api[0]['Category']['Name'] == "Good":
+			category_description = "Good (0 - 50) Air quality is considered satisfactory, and air pollution poses little or no risk."
+			category_color = "good"
+		elif api[0]['Category']['Name'] == "Moderate":
+			category_description="AQI: Moderate (51 - 100) Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution."
+			category_color = "moderate"
+		elif api[0]['Category']['Name'] == "Unhealthy":
+			category_description= "AQI: Unhealthy for Sensitive Groups (101 - 150) Although general public is not likely to be affected at this AQI range, people with lung disease, older adults and children are at a greater risk from exposure to ozone, whereas persons with heart and lung disease, older adults and children are at greater risk from the presence of particles in the air."
+			category_color = "unhealthy"
+		elif api[0]['Category']['Name'] == "Unhealthy":
+			category_description= "AQI: Unhealthy (151 - 200) Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects."
+			category_color = "unhealthy"
 
-	return render(request, 'home.html', {'api': api, 'category_description':category_description,'category_color':category_color, })
+		# api = 5
+
+		return render(request, 'home.html', {'api': api, 'category_description':category_description,'category_color':category_color, })
+
+	else:
+
+		api_request = requests.get("http://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=20002&distance=25&API_KEY=1006531C-06DC-4022-91D2-0A3B3EA111E5")
+		
+		try:
+			api = json.loads(api_request.content)
+
+		except Exception as e:
+			api = "Error api request"
+
+		if api[0]['Category']['Name'] == "Good":
+			category_description = "Good (0 - 50) Air quality is considered satisfactory, and air pollution poses little or no risk."
+			category_color = "good"
+		elif api[0]['Category']['Name'] == "Moderate":
+			category_description="AQI: Moderate (51 - 100) Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution."
+			category_color = "moderate"
+		elif api[0]['Category']['Name'] == "Unhealthy":
+			category_description= "AQI: Unhealthy for Sensitive Groups (101 - 150) Although general public is not likely to be affected at this AQI range, people with lung disease, older adults and children are at a greater risk from exposure to ozone, whereas persons with heart and lung disease, older adults and children are at greater risk from the presence of particles in the air."
+			category_color = "unhealthy"
+		elif api[0]['Category']['Name'] == "Unhealthy":
+			category_description= "AQI: Unhealthy (151 - 200) Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects."
+			category_color = "unhealthy"
+
+		# api = 5
+
+		return render(request, 'home.html', {'api': api, 'category_description':category_description,'category_color':category_color, })
 
 
 def about(request):
